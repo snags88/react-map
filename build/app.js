@@ -128,8 +128,9 @@ var MapDisplay = React.createClass({
     if (point) {
       this.props.map.panTo(point.geometry.location);
       this.props.map.setZoom(15);
+
+      // TODO: do something with the point of interest like show details
     }
-    // TODO: do something with the point of interest like show details
   }
 });
 

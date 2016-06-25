@@ -1,6 +1,7 @@
-var gulp = require('gulp')
+var gulp       = require('gulp')
   , browserify = require('gulp-browserify')
-  , rename = require('gulp-rename')
+  , rename     = require('gulp-rename')
+  , sass       = require('gulp-sass')
   ;
 
 gulp.task('build-js', function() {
@@ -19,12 +20,20 @@ gulp.task('build-html', function() {
     .pipe(gulp.dest('public'));
 });
 
+gulp.task('build-sass', function() {
+  return gulp.src('src/stylesheets/main.scss')
+    .pipe(sass().on('error', sass.logError))
+    .pipe(gulp.dest('public'));
+});
+
 gulp.task('watch', function() {
   gulp.watch('src/js/**/*.jsx', ['build-js']);
   gulp.watch('src/js/**/*.js', ['build-js']);
   gulp.watch('src/js/*.jsx', ['build-js']);
   gulp.watch('src/index.html', ['build-html']);
+  gulp.watch('src/stylesheets/**/*.scss', ['build-sass']);
+  gulp.watch('src/stylesheets/*.scss', ['build-sass']);
 });
 
-gulp.task('build', ['build-js', 'build-html']);
+gulp.task('build', ['build-js', 'build-html', 'build-sass']);
 gulp.task('default', ['build', 'watch']);

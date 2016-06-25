@@ -4,7 +4,8 @@
   "description": "Front end maps application using Google Places",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "build-js": "browserify -t [babelify] src/js/App.jsx > public/app.js",
+    "build": "npm run build-js"
   },
   "keywords": [
     "maps",
@@ -19,10 +20,6 @@
     "type": "git",
     "url": "https://github.com/snags88/react-map.git"
   },
-  "scripts": {
-    "build-js": "browserify -t [babelify] src/js/App.jsx > public/app.js",
-    "build": "npm run build-js"
-  },
   "devDependencies": {
     "babel-preset-es2015": "6.9.0",
     "babel-preset-react": "6.5.0",
@@ -30,6 +27,7 @@
     "browserify": "13.0.1",
     "gulp": "3.9.1",
     "gulp-browserify": "0.5.1",
-    "gulp-rename": "1.2.2"
+    "gulp-rename": "1.2.2",
+    "gulp-sass": "^2.3.2"
   }
 }
