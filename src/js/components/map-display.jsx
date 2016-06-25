@@ -1,5 +1,3 @@
-
-
 var MapDisplay = React.createClass({
   render: function render () {
     return (
@@ -8,8 +6,10 @@ var MapDisplay = React.createClass({
   },
 
   componentDidUpdate: function componentDidUpdate () {
-    this.props.results.forEach(this.addMarker);
+    // TODO: store markers in array and remove before component updates
     // TODO: maybe add some delay on the drops and change the pin style
+    this.props.results.forEach(this.addMarker);
+    this.handlePointOfInterest();
   },
 
   addMarker: function addMarker(place) {
@@ -24,20 +24,23 @@ var MapDisplay = React.createClass({
       }
     });
 
-    google.maps.event.addListener(marker, 'click', function() {
-      service.getDetails(place, function(result, status) {
-        if (status !== google.maps.places.PlacesServiceStatus.OK) {
-          console.error(status);
-          return;
-        }
-        infoWindow.setContent(result.name);
-        infoWindow.open(map, marker);
-      });
-    });
+    google.maps.event.addListener(marker, 'click', this.onMarkerClick.bind(this, place));
+  },
+
+  onMarkerClick: function onMarkerClick (place) {
+    this.props.onMarkerClick(place);
+  },
+
+  handlePointOfInterest: function handlePointOfInterest () {
+    var point = this.props.pointOfInterest;
+
+    if (point) {
+      this.props.map.panTo(point.geometry.location);
+      this.props.map.setZoom(15);
+    }
+
+    // TODO: do something with the point of interest
   }
-  // TODO: drop pins on result
-  // TODO: drop pin and center on point of interest
-  // TODO: onClick of pin, set place of interest on top level app
 })
 
 module.exports = MapDisplay;

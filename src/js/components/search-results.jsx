@@ -7,7 +7,11 @@ var SearchResults = React.createClass({
       <ul>
         {
           this.props.results.map(function(result, i) {
-            return <SearchResult result = {result} key={i}/>;
+            return <SearchResult
+                     result = {result}
+                     key={i}
+                     onResultClick = {this.props.onResultClick}
+                   />;
           }, this)
         }
       </ul>

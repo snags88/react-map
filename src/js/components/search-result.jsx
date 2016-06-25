@@ -5,13 +5,16 @@ var SearchResult = React.createClass({
     var result = this.props.result;
 
     return (
-      <li>
+      <li onClick = {this.handleClick}>
         {result.name}
       </li>
     );
-  }
+  },
 
-  //make results look good
+  handleClick: function handleClick (e) {
+    this.props.onResultClick(this.props.result);
+  }
+  // TODO: make results look good
 });
 
 module.exports = SearchResult;

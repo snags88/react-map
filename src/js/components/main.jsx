@@ -9,8 +9,16 @@ var MainComponent = React.createClass({
     return (
       <div>
         <SearchForm handleNewSearch = {this.onNewSearch}/>
-        <SearchResults results = {this.state.results}/>
-        <MapDisplay map = {this.map} pointOfInterest = {this.state.pointOfInterest} results = {this.state.results} />
+        <SearchResults
+          results = {this.state.results}
+          onResultClick = {this.updatePointOfInterest}
+        />
+        <MapDisplay
+          map = {this.map}
+          pointOfInterest = {this.state.pointOfInterest}
+          results = {this.state.results}
+          onMarkerClick = {this.updatePointOfInterest}
+        />
       </div>
     );
   },
@@ -43,13 +51,15 @@ var MainComponent = React.createClass({
 
   handleSearchResponse: function handleSearchResponse (results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
-      console.log(results);
-      this.setState({results: results});
+      this.setState({results: results, pointOfInterest: results[0]});
     } else {
       //handle error
     }
   },
 
+  updatePointOfInterest: function updatePointOfInterest (place) {
+    this.setState({pointOfInterest: place});
+  }
 });
 
 module.exports = MainComponent;

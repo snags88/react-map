@@ -14,8 +14,16 @@ var MainComponent = React.createClass({
       'div',
       null,
       React.createElement(SearchForm, { handleNewSearch: this.onNewSearch }),
-      React.createElement(SearchResults, { results: this.state.results }),
-      React.createElement(MapDisplay, { map: this.map, pointOfInterest: this.state.pointOfInterest, results: this.state.results })
+      React.createElement(SearchResults, {
+        results: this.state.results,
+        onResultClick: this.updatePointOfInterest
+      }),
+      React.createElement(MapDisplay, {
+        map: this.map,
+        pointOfInterest: this.state.pointOfInterest,
+        results: this.state.results,
+        onMarkerClick: this.updatePointOfInterest
+      })
     );
   },
 
@@ -47,13 +55,15 @@ var MainComponent = React.createClass({
 
   handleSearchResponse: function handleSearchResponse(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
-      console.log(results);
-      this.setState({ results: results });
+      this.setState({ results: results, pointOfInterest: results[0] });
     } else {
       //handle error
     }
-  }
+  },
 
+  updatePointOfInterest: function updatePointOfInterest(place) {
+    this.setState({ pointOfInterest: place });
+  }
 });
 
 module.exports = MainComponent;
@@ -69,8 +79,10 @@ var MapDisplay = React.createClass({
   },
 
   componentDidUpdate: function componentDidUpdate() {
-    this.props.results.forEach(this.addMarker);
+    // TODO: store markers in array and remove before component updates
     // TODO: maybe add some delay on the drops and change the pin style
+    this.props.results.forEach(this.addMarker);
+    this.handlePointOfInterest();
   },
 
   addMarker: function addMarker(place) {
@@ -85,20 +97,23 @@ var MapDisplay = React.createClass({
       }
     });
 
-    google.maps.event.addListener(marker, 'click', function () {
-      service.getDetails(place, function (result, status) {
-        if (status !== google.maps.places.PlacesServiceStatus.OK) {
-          console.error(status);
-          return;
-        }
-        infoWindow.setContent(result.name);
-        infoWindow.open(map, marker);
-      });
-    });
+    google.maps.event.addListener(marker, 'click', this.onMarkerClick.bind(this, place));
+  },
+
+  onMarkerClick: function onMarkerClick(place) {
+    this.props.onMarkerClick(place);
+  },
+
+  handlePointOfInterest: function handlePointOfInterest() {
+    var point = this.props.pointOfInterest;
+
+    if (point) {
+      this.props.map.panTo(point.geometry.location);
+      this.props.map.setZoom(15);
+    }
+
+    // TODO: do something with the point of interest
   }
-  // TODO: drop pins on result
-  // TODO: drop pin and center on point of interest
-  // TODO: onClick of pin, set place of interest on top level app
 });
 
 module.exports = MapDisplay;
@@ -140,7 +155,7 @@ var SearchForm = React.createClass({
   handleSubmit: function handleSubmit(e) {
     e.preventDefault();
     this.props.handleNewSearch(this.state);
-    this.setState(this.getInitialState());
+    //this.setState(this.getInitialState());
   }
 });
 
@@ -157,12 +172,15 @@ var SearchResult = React.createClass({
 
     return React.createElement(
       "li",
-      null,
+      { onClick: this.handleClick },
       result.name
     );
-  }
+  },
 
-  //make results look good
+  handleClick: function handleClick(e) {
+    this.props.onResultClick(this.props.result);
+  }
+  // TODO: make results look good
 });
 
 module.exports = SearchResult;
@@ -180,7 +198,11 @@ var SearchResults = React.createClass({
       'ul',
       null,
       this.props.results.map(function (result, i) {
-        return React.createElement(SearchResult, { result: result, key: i });
+        return React.createElement(SearchResult, {
+          result: result,
+          key: i,
+          onResultClick: this.props.onResultClick
+        });
       }, this)
     );
   }

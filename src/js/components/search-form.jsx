@@ -30,7 +30,7 @@ var SearchForm = React.createClass({
   handleSubmit: function handleSubmit (e) {
     e.preventDefault();
     this.props.handleNewSearch(this.state);
-    this.setState(this.getInitialState());
+    //this.setState(this.getInitialState());
   }
 });
 
