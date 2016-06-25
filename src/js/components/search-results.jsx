@@ -17,7 +17,6 @@ var SearchResults = React.createClass({
       </ul>
    );
   }
-  // TODO: handle click on search result and send to top level app
 });
 
 module.exports = SearchResults;

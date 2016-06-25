@@ -29,6 +29,30 @@ var MainComponent = React.createClass({
   },
 
   componentDidMount: function componentDidMount () {
+    this._setGoogleTools();
+    this._setMapListeners();
+  },
+
+  onNewSearch: function onNewSearch (search) {
+    var request = {
+        location: this.latLng,
+        radius: '2000',
+        query: search.value
+      };
+
+    this.places.textSearch(request, this._handleSearchResponse);
+  },
+
+  updatePointOfInterest: function updatePointOfInterest (place) {
+    this.setState({pointOfInterest: place});
+    // TODO: set last 5 POI to local storage
+  },
+
+  /*
+   * private
+   */
+
+  _setGoogleTools: function _setGoogleTools () {
     var coord = new GeoLocator()
 
     this.latLng = new google.maps.LatLng(coord.lat(), coord.longitude());
@@ -39,17 +63,7 @@ var MainComponent = React.createClass({
     this.places = new google.maps.places.PlacesService(this.map);
   },
 
-  onNewSearch: function onNewSearch (search) {
-    var request = {
-        location: this.latLng,
-        radius: '2000',
-        query: search.value
-      };
-
-    this.places.textSearch(request, this.handleSearchResponse);
-  },
-
-  handleSearchResponse: function handleSearchResponse (results, status) {
+  _handleSearchResponse: function _handleSearchResponse (results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
       this.setState({results: results, pointOfInterest: results[0]});
     } else {
@@ -57,8 +71,12 @@ var MainComponent = React.createClass({
     }
   },
 
-  updatePointOfInterest: function updatePointOfInterest (place) {
-    this.setState({pointOfInterest: place});
+  _setMapListeners: function _setMapListeners () {
+    var self = this;
+
+    google.maps.event.addListener(this.map, 'center_changed', function () {
+      self.latLng = self.map.getCenter()
+    })
   }
 });
 
