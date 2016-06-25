@@ -6,7 +6,7 @@ var SearchResult = React.createClass({
 
     return (
       <li>
-        {result.value}
+        {result.name}
       </li>
     );
   }

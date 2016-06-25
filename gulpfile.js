@@ -7,7 +7,7 @@ gulp.task('build-js', function() {
   return gulp.src('src/js/App.jsx')
     .pipe(browserify({
       transform: ['babelify'],
-      extensions: ['.jsx']
+      extensions: ['.js', '.jsx']
     }))
     .pipe(rename('app.js'))
     .pipe(gulp.dest('build'))
@@ -21,6 +21,7 @@ gulp.task('build-html', function() {
 
 gulp.task('watch', function() {
   gulp.watch('src/js/**/*.jsx', ['build-js']);
+  gulp.watch('src/js/**/*.js', ['build-js']);
   gulp.watch('src/js/*.jsx', ['build-js']);
   gulp.watch('src/index.html', ['build-html']);
 });

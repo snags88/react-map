@@ -25,7 +25,6 @@ var SearchForm = React.createClass({
 
   handleChange: function handleChange (e) {
     this.setState({value: e.target.value})
-    console.log('changed');
   },
 
   handleSubmit: function handleSubmit (e) {
