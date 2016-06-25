@@ -10,6 +10,8 @@ var SearchResult = React.createClass({
       </li>
     );
   }
+
+  //make results look good
 });
 
 module.exports = SearchResult;

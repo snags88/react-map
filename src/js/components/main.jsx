@@ -1,6 +1,7 @@
 var SearchForm    = require('./search-form.jsx')
   , SearchResults = require('./search-results.jsx')
   , GeoLocator    = require('./../lib/geo-locator.js')
+  , MapDisplay    = require('./map-display.jsx')
   ;
 
 var MainComponent = React.createClass({
@@ -9,13 +10,13 @@ var MainComponent = React.createClass({
       <div>
         <SearchForm handleNewSearch = {this.onNewSearch}/>
         <SearchResults results = {this.state.results}/>
-        <div id = 'js--el-map'/>
+        <MapDisplay map = {this.map} pointOfInterest = {this.state.pointOfInterest} results = {this.state.results} />
       </div>
     );
   },
 
   getInitialState: function getInitialState () {
-    return { results: [] };
+    return { results: [], pointOfInterest: null };
     // TODO: eventually get last 5 places from local storage
   },
 
@@ -25,7 +26,7 @@ var MainComponent = React.createClass({
     this.latLng = new google.maps.LatLng(coord.lat(), coord.longitude());
     this.map    = new google.maps.Map(document.getElementById('js--el-map'), {
       center: this.latLng,
-      zoom: 15
+      zoom: 12
     });
     this.places = new google.maps.places.PlacesService(this.map);
   },
@@ -38,7 +39,6 @@ var MainComponent = React.createClass({
       };
 
     this.places.textSearch(request, this.handleSearchResponse);
-    this.setState({results: [search]});
   },
 
   handleSearchResponse: function handleSearchResponse (results, status) {
