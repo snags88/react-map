@@ -1,3 +1,19 @@
+@import 'reset';
+@import 'vars';
+
 body {
-  background: blue;
+  #leftPane {
+    width: $left-width;
+    float: left;
+    height: 100vh;
+  }
+
+  #mainBody {
+    width: $main-width;
+    float: left;
+  }
 }
+
+@import 'map-display';
+@import 'search-form';
+@import 'search-results';

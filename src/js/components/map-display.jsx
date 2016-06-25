@@ -1,7 +1,7 @@
 var MapDisplay = React.createClass({
   render: function render () {
     return (
-      <div id = 'js--el-map' style = {{height: '500px'}} />
+      <div id = 'js--el-map' className = 'map'/>
     );
   },
 

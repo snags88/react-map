@@ -8,17 +8,29 @@ var MainComponent = React.createClass({
   render: function render () {
     return (
       <div>
-        <SearchForm handleNewSearch = {this.onNewSearch}/>
-        <SearchResults
-          results = {this.state.results}
-          onResultClick = {this.updatePointOfInterest}
-        />
-        <MapDisplay
-          map = {this.map}
-          pointOfInterest = {this.state.pointOfInterest}
-          results = {this.state.results}
-          onMarkerClick = {this.updatePointOfInterest}
-        />
+        <div id = 'leftPane'>
+          <div id = 'searchField'>
+            <SearchForm
+              handleNewSearch = {this.onNewSearch}
+            />
+          </div>
+          <div id = 'searchResults'>
+            <SearchResults
+              results = {this.state.results}
+              onResultClick = {this.updatePointOfInterest}
+            />
+          </div>
+        </div>
+        <div id = 'mainBody'>
+          <div id = 'mapDisplay'>
+            <MapDisplay
+              map = {this.map}
+              pointOfInterest = {this.state.pointOfInterest}
+              results = {this.state.results}
+              onMarkerClick = {this.updatePointOfInterest}
+            />
+          </div>
+        </div>
       </div>
     );
   },

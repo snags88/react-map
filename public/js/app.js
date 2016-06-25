@@ -13,17 +13,39 @@ var MainComponent = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(SearchForm, { handleNewSearch: this.onNewSearch }),
-      React.createElement(SearchResults, {
-        results: this.state.results,
-        onResultClick: this.updatePointOfInterest
-      }),
-      React.createElement(MapDisplay, {
-        map: this.map,
-        pointOfInterest: this.state.pointOfInterest,
-        results: this.state.results,
-        onMarkerClick: this.updatePointOfInterest
-      })
+      React.createElement(
+        'div',
+        { id: 'leftPane' },
+        React.createElement(
+          'div',
+          { id: 'searchField' },
+          React.createElement(SearchForm, {
+            handleNewSearch: this.onNewSearch
+          })
+        ),
+        React.createElement(
+          'div',
+          { id: 'searchResults' },
+          React.createElement(SearchResults, {
+            results: this.state.results,
+            onResultClick: this.updatePointOfInterest
+          })
+        )
+      ),
+      React.createElement(
+        'div',
+        { id: 'mainBody' },
+        React.createElement(
+          'div',
+          { id: 'mapDisplay' },
+          React.createElement(MapDisplay, {
+            map: this.map,
+            pointOfInterest: this.state.pointOfInterest,
+            results: this.state.results,
+            onMarkerClick: this.updatePointOfInterest
+          })
+        )
+      )
     );
   },
 
@@ -93,7 +115,7 @@ var MapDisplay = React.createClass({
   displayName: 'MapDisplay',
 
   render: function render() {
-    return React.createElement('div', { id: 'js--el-map', style: { height: '500px' } });
+    return React.createElement('div', { id: 'js--el-map', className: 'map' });
   },
 
   componentDidUpdate: function componentDidUpdate() {
