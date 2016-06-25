@@ -15,6 +15,10 @@
   ],
   "author": "Seiji Naganuma",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/snags88/react-map.git"
+  },
   "scripts": {
     "build-js": "browserify -t [babelify] src/js/App.jsx > public/app.js",
     "build": "npm run build-js"
