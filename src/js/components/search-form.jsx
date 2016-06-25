@@ -15,7 +15,8 @@ var SearchForm = React.createClass({
         </button>
       </form>
     );
-    // add validation to form.
+    // TODO: add validation to form.
+    // TODO: add typeahead to assist search
   },
 
   getInitialState: function getInitialState () {
