@@ -138,6 +138,8 @@ body {
     width: 20%;
     border-left: none;
     background: #91c673; }
+  #searchField .search-form button[disabled] {
+    cursor: default; }
 
 #searchResults ul {
   padding: 16px; }

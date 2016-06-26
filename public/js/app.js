@@ -112,6 +112,9 @@ module.exports = MainComponent;
 },{"./../lib/geo-locator.js":7,"./map-display.jsx":2,"./search-form.jsx":3,"./search-results.jsx":5}],2:[function(require,module,exports){
 'use strict';
 
+var Marker = require('./../lib/map-marker'),
+    MarkerManager = require('./../lib/map-marker-manager');
+
 var MapDisplay = React.createClass({
   displayName: 'MapDisplay',
 
@@ -119,26 +122,24 @@ var MapDisplay = React.createClass({
     return React.createElement('div', { id: 'js--el-map', className: 'map' });
   },
 
+  componentDidMount: function componentDidMount() {
+    this.markerManager = new MarkerManager(this.props.map);
+  },
+
+  componentWillUpdate: function componentWillUpdate() {
+    this.markerManager.clearAllMarkers();
+  },
+
   componentDidUpdate: function componentDidUpdate() {
-    // TODO: store markers in array and remove before component updates
-    // TODO: maybe add some delay on the drops and change the pin style
     this.props.results.forEach(this.addMarker);
     this.handlePointOfInterest();
   },
 
   addMarker: function addMarker(place) {
-    var marker = new google.maps.Marker({
-      map: this.props.map,
-      position: place.geometry.location,
-      animation: google.maps.Animation.DROP,
-      icon: {
-        url: 'http://maps.gstatic.com/mapfiles/circle.png',
-        anchor: new google.maps.Point(10, 10),
-        scaledSize: new google.maps.Size(10, 17)
-      }
-    });
+    var marker = new Marker(place.geometry.location, this.props.map);
+    marker.addClickListener(this.onMarkerClick.bind(this, place));
 
-    google.maps.event.addListener(marker, 'click', this.onMarkerClick.bind(this, place));
+    this.markerManager.markers.push(marker);
   },
 
   onMarkerClick: function onMarkerClick(place) {
@@ -159,7 +160,7 @@ var MapDisplay = React.createClass({
 
 module.exports = MapDisplay;
 
-},{}],3:[function(require,module,exports){
+},{"./../lib/map-marker":9,"./../lib/map-marker-manager":8}],3:[function(require,module,exports){
 'use strict';
 
 var SearchForm = React.createClass({
@@ -302,5 +303,55 @@ function showError(error) {
 }
 
 module.exports = GeoLocator;
+
+},{}],8:[function(require,module,exports){
+"use strict";
+
+var MapMarkerManager = function MapMarkerManager(map) {
+  this.markers = [];
+  this.map = map;
+};
+
+MapMarkerManager.prototype.clearAllMarkers = function clearAllMarkers() {
+  this.markers.forEach(function (marker) {
+    marker.setMap(null);
+  });
+  this.markers = [];
+};
+
+module.exports = MapMarkerManager;
+
+},{}],9:[function(require,module,exports){
+'use strict';
+
+var defaults = {
+  animation: google.maps.Animation.DROP,
+  icon: {
+    url: 'http://maps.gstatic.com/mapfiles/circle.png',
+    anchor: new google.maps.Point(10, 10),
+    scaledSize: new google.maps.Size(10, 17)
+  }
+};
+
+var MapMarker = function MapMarker(position, map, opts) {
+  if (!position) {
+    throw 'Must pass in a position';
+  };
+
+  opts = opts || {};
+  opts = Object.assign({}, defaults, opts, { position: position, map: map });
+
+  this._marker = new google.maps.Marker(opts);
+};
+
+MapMarker.prototype.addClickListener = function addClickListener(callback) {
+  google.maps.event.addListener(this._marker, 'click', callback);
+};
+
+MapMarker.prototype.setMap = function setMap(value) {
+  this._marker.setMap(value);
+};
+
+module.exports = MapMarker;
 
 },{}]},{},[6])
