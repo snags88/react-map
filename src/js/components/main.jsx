@@ -2,6 +2,7 @@ var SearchForm    = require('./search-form.jsx')
   , SearchResults = require('./search-results.jsx')
   , GeoLocator    = require('./../lib/geo-locator.js')
   , MapDisplay    = require('./map-display.jsx')
+  , Loader        = require('./loader.jsx')
   ;
 
 var MainComponent = React.createClass({
@@ -15,6 +16,7 @@ var MainComponent = React.createClass({
             />
           </div>
           <div id = 'searchResults'>
+            <Loader loading = {this.state.loading} />
             <SearchResults
               results = {this.state.results}
               onResultClick = {this.updatePointOfInterest}
@@ -25,6 +27,7 @@ var MainComponent = React.createClass({
           <div id = 'mapDisplay'>
             <MapDisplay
               map = {this.map}
+              placesService = {this.places}
               pointOfInterest = {this.state.pointOfInterest}
               results = {this.state.results}
               onMarkerClick = {this.updatePointOfInterest}
@@ -36,7 +39,11 @@ var MainComponent = React.createClass({
   },
 
   getInitialState: function getInitialState () {
-    return { results: [], pointOfInterest: null };
+    return {
+      results: [],
+      pointOfInterest: null,
+      loading: false
+    };
     // TODO: handle search query in URL and use for initial state
   },
 
@@ -46,6 +53,8 @@ var MainComponent = React.createClass({
   },
 
   onNewSearch: function onNewSearch (search) {
+    this.setState({loading: true, results: []});
+
     var request = {
         location: this.latLng,
         radius: '2000',
@@ -78,7 +87,7 @@ var MainComponent = React.createClass({
 
   _handleSearchResponse: function _handleSearchResponse (results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
-      this.setState({results: results, pointOfInterest: results[0]});
+      this.setState({results: results, pointOfInterest: results[0], loading: false});
     } else {
       //handle error
     }

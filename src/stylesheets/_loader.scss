@@ -1,0 +1,10 @@
+.loader {
+  display: none;
+  width: $content-spacing * 2;
+  margin: 0 auto;
+  padding-top: $content-spacing * 4;
+
+  &.active {
+    display: block;
+  }
+}

@@ -13,11 +13,8 @@ var MapDisplay = React.createClass({
     this.markerManager = new MarkerManager(this.props.map)
   },
 
-  componentWillUpdate: function componentWillUpdate () {
-    this.markerManager.clearAllMarkers();
-  },
-
   componentDidUpdate: function componentDidUpdate () {
+    this.markerManager.clearAllMarkers();
     this.props.results.forEach(this.addMarker);
     this.handlePointOfInterest();
   },

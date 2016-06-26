@@ -1,10 +1,28 @@
 (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);throw new Error("Cannot find module '"+o+"'")}var f=n[o]={exports:{}};t[o][0].call(f.exports,function(e){var n=t[o][1][e];return s(n?n:e)},f,f.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 'use strict';
 
+var Loader = React.createClass({
+  displayName: 'Loader',
+
+  render: function render() {
+    return React.createElement(
+      'div',
+      { className: 'loader' + (this.props.loading ? ' active' : '') },
+      React.createElement('img', { src: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiIgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiBmaWxsPSJibGFjayI+DQogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDIpIiBkPSJNMCAxMiBWMjAgSDQgVjEyeiI+DQogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iZCIgdmFsdWVzPSJNMCAxMiBWMjAgSDQgVjEyejsgTTAgNCBWMjggSDQgVjR6OyBNMCAxMiBWMjAgSDQgVjEyejsgTTAgMTIgVjIwIEg0IFYxMnoiIGR1cj0iMS4ycyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGJlZ2luPSIwIiBrZXl0aW1lcz0iMDsuMjsuNTsxIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuNiAwLjQgMC44OzAuMiAwLjggMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgIC8+DQogIDwvcGF0aD4NCiAgPHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoOCkiIGQ9Ik0wIDEyIFYyMCBINCBWMTJ6Ij4NCiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJkIiB2YWx1ZXM9Ik0wIDEyIFYyMCBINCBWMTJ6OyBNMCA0IFYyOCBINCBWNHo7IE0wIDEyIFYyMCBINCBWMTJ6OyBNMCAxMiBWMjAgSDQgVjEyeiIgZHVyPSIxLjJzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAuMiIga2V5dGltZXM9IjA7LjI7LjU7MSIga2V5U3BsaW5lcz0iMC4yIDAuMiAwLjQgMC44OzAuMiAwLjYgMC40IDAuODswLjIgMC44IDAuNCAwLjgiIGNhbGNNb2RlPSJzcGxpbmUiICAvPg0KICA8L3BhdGg+DQogIDxwYXRoIHRyYW5zZm9ybT0idHJhbnNsYXRlKDE0KSIgZD0iTTAgMTIgVjIwIEg0IFYxMnoiPg0KICAgIDxhbmltYXRlIGF0dHJpYnV0ZU5hbWU9ImQiIHZhbHVlcz0iTTAgMTIgVjIwIEg0IFYxMno7IE0wIDQgVjI4IEg0IFY0ejsgTTAgMTIgVjIwIEg0IFYxMno7IE0wIDEyIFYyMCBINCBWMTJ6IiBkdXI9IjEuMnMiIHJlcGVhdENvdW50PSJpbmRlZmluaXRlIiBiZWdpbj0iMC40IiBrZXl0aW1lcz0iMDsuMjsuNTsxIiBrZXlTcGxpbmVzPSIwLjIgMC4yIDAuNCAwLjg7MC4yIDAuNiAwLjQgMC44OzAuMiAwLjggMC40IDAuOCIgY2FsY01vZGU9InNwbGluZSIgLz4NCiAgPC9wYXRoPg0KICA8cGF0aCB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMCkiIGQ9Ik0wIDEyIFYyMCBINCBWMTJ6Ij4NCiAgICA8YW5pbWF0ZSBhdHRyaWJ1dGVOYW1lPSJkIiB2YWx1ZXM9Ik0wIDEyIFYyMCBINCBWMTJ6OyBNMCA0IFYyOCBINCBWNHo7IE0wIDEyIFYyMCBINCBWMTJ6OyBNMCAxMiBWMjAgSDQgVjEyeiIgZHVyPSIxLjJzIiByZXBlYXRDb3VudD0iaW5kZWZpbml0ZSIgYmVnaW49IjAuNiIga2V5dGltZXM9IjA7LjI7LjU7MSIga2V5U3BsaW5lcz0iMC4yIDAuMiAwLjQgMC44OzAuMiAwLjYgMC40IDAuODswLjIgMC44IDAuNCAwLjgiIGNhbGNNb2RlPSJzcGxpbmUiIC8+DQogIDwvcGF0aD4NCiAgPHBhdGggdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjYpIiBkPSJNMCAxMiBWMjAgSDQgVjEyeiI+DQogICAgPGFuaW1hdGUgYXR0cmlidXRlTmFtZT0iZCIgdmFsdWVzPSJNMCAxMiBWMjAgSDQgVjEyejsgTTAgNCBWMjggSDQgVjR6OyBNMCAxMiBWMjAgSDQgVjEyejsgTTAgMTIgVjIwIEg0IFYxMnoiIGR1cj0iMS4ycyIgcmVwZWF0Q291bnQ9ImluZGVmaW5pdGUiIGJlZ2luPSIwLjgiIGtleXRpbWVzPSIwOy4yOy41OzEiIGtleVNwbGluZXM9IjAuMiAwLjIgMC40IDAuODswLjIgMC42IDAuNCAwLjg7MC4yIDAuOCAwLjQgMC44IiBjYWxjTW9kZT0ic3BsaW5lIiAvPg0KICA8L3BhdGg+DQo8L3N2Zz4=' })
+    );
+  }
+});
+
+module.exports = Loader;
+
+},{}],2:[function(require,module,exports){
+'use strict';
+
 var SearchForm = require('./search-form.jsx'),
     SearchResults = require('./search-results.jsx'),
     GeoLocator = require('./../lib/geo-locator.js'),
-    MapDisplay = require('./map-display.jsx');
+    MapDisplay = require('./map-display.jsx'),
+    Loader = require('./loader.jsx');
 
 var MainComponent = React.createClass({
   displayName: 'MainComponent',
@@ -26,6 +44,7 @@ var MainComponent = React.createClass({
         React.createElement(
           'div',
           { id: 'searchResults' },
+          React.createElement(Loader, { loading: this.state.loading }),
           React.createElement(SearchResults, {
             results: this.state.results,
             onResultClick: this.updatePointOfInterest
@@ -40,6 +59,7 @@ var MainComponent = React.createClass({
           { id: 'mapDisplay' },
           React.createElement(MapDisplay, {
             map: this.map,
+            placesService: this.places,
             pointOfInterest: this.state.pointOfInterest,
             results: this.state.results,
             onMarkerClick: this.updatePointOfInterest
@@ -50,7 +70,11 @@ var MainComponent = React.createClass({
   },
 
   getInitialState: function getInitialState() {
-    return { results: [], pointOfInterest: null };
+    return {
+      results: [],
+      pointOfInterest: null,
+      loading: false
+    };
     // TODO: handle search query in URL and use for initial state
   },
 
@@ -60,6 +84,8 @@ var MainComponent = React.createClass({
   },
 
   onNewSearch: function onNewSearch(search) {
+    this.setState({ loading: true, results: [] });
+
     var request = {
       location: this.latLng,
       radius: '2000',
@@ -92,7 +118,7 @@ var MainComponent = React.createClass({
 
   _handleSearchResponse: function _handleSearchResponse(results, status) {
     if (status == google.maps.places.PlacesServiceStatus.OK) {
-      this.setState({ results: results, pointOfInterest: results[0] });
+      this.setState({ results: results, pointOfInterest: results[0], loading: false });
     } else {
       //handle error
     }
@@ -109,7 +135,7 @@ var MainComponent = React.createClass({
 
 module.exports = MainComponent;
 
-},{"./../lib/geo-locator.js":7,"./map-display.jsx":2,"./search-form.jsx":3,"./search-results.jsx":5}],2:[function(require,module,exports){
+},{"./../lib/geo-locator.js":8,"./loader.jsx":1,"./map-display.jsx":3,"./search-form.jsx":4,"./search-results.jsx":6}],3:[function(require,module,exports){
 'use strict';
 
 var Marker = require('./../lib/map-marker'),
@@ -126,11 +152,8 @@ var MapDisplay = React.createClass({
     this.markerManager = new MarkerManager(this.props.map);
   },
 
-  componentWillUpdate: function componentWillUpdate() {
-    this.markerManager.clearAllMarkers();
-  },
-
   componentDidUpdate: function componentDidUpdate() {
+    this.markerManager.clearAllMarkers();
     this.props.results.forEach(this.addMarker);
     this.handlePointOfInterest();
   },
@@ -160,7 +183,7 @@ var MapDisplay = React.createClass({
 
 module.exports = MapDisplay;
 
-},{"./../lib/map-marker":9,"./../lib/map-marker-manager":8}],3:[function(require,module,exports){
+},{"./../lib/map-marker":10,"./../lib/map-marker-manager":9}],4:[function(require,module,exports){
 'use strict';
 
 var SearchForm = React.createClass({
@@ -187,9 +210,9 @@ var SearchForm = React.createClass({
   },
 
   componentDidMount: function componentDidMount() {
-    var input = document.getElementById('js--search-input');
+    this.input = document.getElementById('js--search-input');
 
-    this.searchBox = new google.maps.places.SearchBox(input, {});
+    this.searchBox = new google.maps.places.SearchBox(this.input, {});
   },
 
   getInitialState: function getInitialState() {
@@ -210,7 +233,7 @@ var SearchForm = React.createClass({
     e.preventDefault();
 
     //TODO: Fix this hacky way of getting input value due to SearchBox
-    var value = document.getElementById('js--search-input').value;
+    var value = this.input.value;
 
     this.setState({ value: value }, function () {
       this.props.handleNewSearch(this.state);
@@ -220,7 +243,7 @@ var SearchForm = React.createClass({
 
 module.exports = SearchForm;
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 "use strict";
 
 var SearchResult = React.createClass({
@@ -245,7 +268,7 @@ var SearchResult = React.createClass({
 
 module.exports = SearchResult;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 'use strict';
 
 var SearchResult = require('./search-result.jsx');
@@ -270,14 +293,14 @@ var SearchResults = React.createClass({
 
 module.exports = SearchResults;
 
-},{"./search-result.jsx":4}],6:[function(require,module,exports){
+},{"./search-result.jsx":5}],7:[function(require,module,exports){
 'use strict';
 
 var MainComponent = require('./components/main.jsx');
 
 ReactDOM.render(React.createElement(MainComponent, null), document.getElementById('js--map'));
 
-},{"./components/main.jsx":1}],7:[function(require,module,exports){
+},{"./components/main.jsx":2}],8:[function(require,module,exports){
 "use strict";
 
 var GeoLocator = function GeoLocator(errorEl) {
@@ -317,7 +340,7 @@ function showError(error) {
 
 module.exports = GeoLocator;
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 "use strict";
 
 var MapMarkerManager = function MapMarkerManager(map) {
@@ -334,7 +357,7 @@ MapMarkerManager.prototype.clearAllMarkers = function clearAllMarkers() {
 
 module.exports = MapMarkerManager;
 
-},{}],9:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 'use strict';
 
 var defaults = {
@@ -367,4 +390,4 @@ MapMarker.prototype.setMap = function setMap(value) {
 
 module.exports = MapMarker;
 
-},{}]},{},[6])
+},{}]},{},[7])

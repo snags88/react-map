@@ -18,10 +18,9 @@ var SearchForm = React.createClass({
   },
 
   componentDidMount: function componentDidMount () {
-    var input = document.getElementById('js--search-input');
+    this.input = document.getElementById('js--search-input');
 
-    this.searchBox = new google.maps.places.SearchBox(input, {
-    });
+    this.searchBox = new google.maps.places.SearchBox(this.input, {});
   },
 
   getInitialState: function getInitialState () {
@@ -42,7 +41,7 @@ var SearchForm = React.createClass({
     e.preventDefault();
 
     //TODO: Fix this hacky way of getting input value due to SearchBox
-    var value = document.getElementById('js--search-input').value;
+    var value = this.input.value;
 
     this.setState({value: value}, function () {
       this.props.handleNewSearch(this.state);
