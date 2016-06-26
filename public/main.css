@@ -5,6 +5,7 @@ Last Updated: 2010-09-17
 Author: Richard Clark - http://richclarkdesign.com
 Twitter: @rich_clark
 */
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700);
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code,
@@ -86,16 +87,61 @@ ul, ol {
  * Main Site Format
  */
 /*
+ * Fonts
+ */
+/*
  * Standard Sizes
  */
-body #leftPane {
-  width: 30%;
-  float: left;
-  height: 100vh; }
+/*
+ * Standard Colors
+ */
+.selectable, #searchField .search-form button[type='submit'], #searchResults ul li {
+  cursor: pointer; }
 
-body #mainBody {
-  width: 70%;
-  float: left; }
+.roboto-font, body, #searchField .search-form input[type='text'], #searchField .search-form button[type='submit'] {
+  font-family: 'Roboto Slab', serif; }
+
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; }
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit; }
+
+body {
+  background: #f8f8f8; }
+  body #leftPane {
+    width: 30%;
+    float: left;
+    height: 100vh;
+    overflow-y: auto; }
+  body #mainBody {
+    width: 70%;
+    float: left; }
 
 #mapDisplay .map {
   height: 100vh; }
+
+#searchField .search-form {
+  padding: 32px;
+  padding-bottom: 0; }
+  #searchField .search-form input[type='text'], #searchField .search-form button[type='submit'] {
+    border: 1px solid #a9a9a9;
+    padding: 8px; }
+  #searchField .search-form input[type='text'] {
+    border-right: none;
+    width: 80%; }
+  #searchField .search-form button[type='submit'] {
+    width: 20%;
+    border-left: none;
+    background: #91c673; }
+
+#searchResults ul {
+  padding: 16px; }
+  #searchResults ul li {
+    padding: 16px; }
+  #searchResults ul > li + li {
+    border-top: 1px solid #c4c4c4; }

@@ -52,6 +52,7 @@ var MainComponent = React.createClass({
   getInitialState: function getInitialState() {
     return { results: [], pointOfInterest: null };
     // TODO: eventually get last 5 places from local storage
+    // TODO: handle search query in URL and use for initial state
   },
 
   componentDidMount: function componentDidMount() {
@@ -167,9 +168,10 @@ var SearchForm = React.createClass({
   render: function render() {
     return React.createElement(
       'form',
-      { onSubmit: this.handleSubmit },
+      { onSubmit: this.handleSubmit, className: 'search-form' },
       React.createElement('input', {
         type: 'text',
+        className: 'search-input',
         placeholder: 'Search for a place...',
         value: this.state.value,
         onChange: this.handleChange
@@ -177,10 +179,10 @@ var SearchForm = React.createClass({
       React.createElement(
         'button',
         { type: 'submit' },
-        'Search'
+        React.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
       )
     );
-    // TODO: add validation to form.
+    // TODO: add validation to form
     // TODO: add typeahead to assist search
   },
 

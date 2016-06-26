@@ -6,7 +6,28 @@ $left-width: 30%;
 $main-width: (100 - $left-width);
 
 /*
+ * Fonts
+ */
+
+@import url(https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700);
+
+/*
  * Standard Sizes
  */
 
 $content-spacing: 16px;
+
+/*
+ * Standard Colors
+ */
+
+$grey-faintest: #f8f8f8;
+$grey-lightest: #e0e0e0;
+$grey-lighter: #c4c4c4;
+$grey-light: #a9a9a9;
+$grey: #7d7d7d;
+
+$green: #75B74F;
+$green-lighter: #e1f0d9;
+$green-light: lighten($green, 10%);
+$green-dark: darken($green, 6%);

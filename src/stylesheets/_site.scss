@@ -1,0 +1,31 @@
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+
+}
+
+body {
+  @extend .roboto-font;
+  background: $grey-faintest;
+
+  #leftPane {
+    width: $left-width;
+    float: left;
+    height: 100vh;
+    overflow-y: auto;
+  }
+
+  #mainBody {
+    width: $main-width;
+    float: left;
+  }
+}
+
+

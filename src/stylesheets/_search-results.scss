@@ -1,2 +1,14 @@
 #searchResults {
+  ul {
+    padding: $content-spacing;
+
+    li {
+      @extend .selectable;
+      padding: $content-spacing;
+    }
+
+    & > li + li {
+      border-top: 1px solid $grey-lighter;
+    }
+  }
 }

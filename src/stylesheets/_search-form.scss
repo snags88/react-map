@@ -1,2 +1,24 @@
 #searchField {
+  .search-form {
+    padding: $content-spacing * 2;
+    padding-bottom: 0;
+
+    input[type='text'], button[type='submit'] {
+      @extend .roboto-font;
+      border: 1px solid $grey-light;
+      padding: $content-spacing / 2;
+    }
+
+    input[type='text'] {
+      border-right: none;
+      width: 80%;
+    }
+
+    button[type='submit'] {
+      @extend .selectable;
+      width: 20%;
+      border-left: none;
+      background: $green-light;
+    }
+  }
 }
