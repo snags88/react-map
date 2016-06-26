@@ -12,7 +12,7 @@ Google API to allow users to do the following:
 # Technologies Used
 
 ## Google API
-This project uses the Google Places API for the following:
+This project uses the [Google Places API](https://developers.google.com/maps/) for the following:
 - Places Search
 - Autocomplete
 - Places Detail
