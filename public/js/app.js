@@ -2556,7 +2556,8 @@ module.exports = MainComponent;
 'use strict';
 
 var Marker = require('./../lib/map-marker'),
-    MarkerManager = require('./../lib/map-marker-manager');
+    MarkerManager = require('./../lib/map-marker-manager'),
+    InfoContentBuilder = require('./../lib/info-content-builder');
 
 var MapDisplay = React.createClass({
   displayName: 'MapDisplay',
@@ -2571,40 +2572,44 @@ var MapDisplay = React.createClass({
 
   componentDidUpdate: function componentDidUpdate() {
     this.markerManager.clearAllMarkers();
-    this.props.results.forEach(this.addMarker);
-    this.handlePointOfInterest(this.props.pointOfInterest);
+    this.props.results.forEach(this._addMarker);
+    this._handlePointOfInterest(this.props.pointOfInterest);
   },
 
   shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
     if (nextProps.results === this.props.results) {
       this.markerManager.clearInfoWindows();
-      this.handlePointOfInterest(nextProps.pointOfInterest);
+      this._handlePointOfInterest(nextProps.pointOfInterest);
       return false;
     } else {
       return true;
     }
   },
 
-  addMarker: function addMarker(place) {
+  /*
+   * private
+   */
+
+  _addMarker: function _addMarker(place) {
     var marker = new Marker(place, this.props.map),
         infoWindow = new google.maps.InfoWindow({
-      content: place.name
+      content: this._infoWindowContent(place)
     });
 
     marker.infoWindow = infoWindow;
-    marker.addClickListener(this.onMarkerClick.bind(this, place));
+    marker.addClickListener(this._onMarkerClick.bind(this, place));
 
     this.markerManager.markers.push(marker);
   },
 
-  onMarkerClick: function onMarkerClick(place) {
+  _onMarkerClick: function _onMarkerClick(place) {
     var marker = this.markerManager.findByPlace(place);
     marker.showInfoWindow();
 
     this.props.onMarkerClick(place);
   },
 
-  handlePointOfInterest: function handlePointOfInterest(point) {
+  _handlePointOfInterest: function _handlePointOfInterest(point) {
     if (point) {
       this.props.map.panTo(point.geometry.location);
       this.props.map.setZoom(15);
@@ -2612,12 +2617,25 @@ var MapDisplay = React.createClass({
       var marker = this.markerManager.findByPlace(point);
       marker.showInfoWindow();
     }
+  },
+
+  _infoWindowContent: function _infoWindowContent(place) {
+    var contentBuilder = new InfoContentBuilder(place);
+
+    contentBuilder.addName();
+    contentBuilder.addAddress();
+    contentBuilder.addPhone();
+    contentBuilder.addWebsite();
+    contentBuilder.addRating();
+    contentBuilder.addOuterContainer();
+
+    return contentBuilder.content();
   }
 });
 
 module.exports = MapDisplay;
 
-},{"./../lib/map-marker":29,"./../lib/map-marker-manager":28}],23:[function(require,module,exports){
+},{"./../lib/info-content-builder":28,"./../lib/map-marker":30,"./../lib/map-marker-manager":29}],23:[function(require,module,exports){
 'use strict';
 
 var SearchForm = React.createClass({
@@ -2796,6 +2814,60 @@ module.exports = GeoLocator;
 },{}],28:[function(require,module,exports){
 "use strict";
 
+var InfoContentBuilder = function InfoContentBuilder(place) {
+  this._place = place;
+  this._content = '';
+};
+
+InfoContentBuilder.prototype.content = function content() {
+  return this._content;
+};
+
+InfoContentBuilder.prototype.addOuterContainer = function addOuterContainer() {
+  this._content = "<div class = 'info-window'>" + this._content + "</div>";
+};
+
+InfoContentBuilder.prototype.addName = function addName() {
+  this._content = this._content + "<div class = 'name'>" + "<a href='" + this._place.url + "' target='_blank'>" + this._place.name + "</a>" + "</div>";
+};
+
+InfoContentBuilder.prototype.addAddress = function addAddress() {
+  if (this._place.formatted_address) {
+    this._content = this._content + "<div class = 'address'>" + this._place.formatted_address + "</div>";
+  }
+};
+
+InfoContentBuilder.prototype.addPhone = function addPhone() {
+  var phone = this._place.formatted_phone_number;
+
+  if (phone) {
+    this._content = this._content + "<div class = 'phone'>" + this._place.formatted_phone_number + "</div>";
+  } else {
+    this._content = this._content + "<div class = 'phone'> Unlisted Phone Number</div>";
+  }
+};
+
+InfoContentBuilder.prototype.addWebsite = function addWebsite() {
+  if (this._place.website) {
+    this._content = this._content + "<div class = 'website'>" + "<a href='" + this._place.website + "' target='_blank'>" + this._place.website + "</a>" + "</div>";
+  }
+};
+
+InfoContentBuilder.prototype.addRating = function addRating() {
+  var rating = this._place.rating;
+
+  if (rating) {
+    this._content = this._content + "<div class = 'rating'>" + rating + "/5</div>";
+  } else {
+    this._content = this._content + "<div class = 'rating'> No Rating </div>";
+  }
+};
+
+module.exports = InfoContentBuilder;
+
+},{}],29:[function(require,module,exports){
+"use strict";
+
 var MapMarkerManager = function MapMarkerManager(map) {
   this.markers = [];
   this.map = map;
@@ -2823,7 +2895,7 @@ MapMarkerManager.prototype.clearInfoWindows = function clearInfoWindows() {
 
 module.exports = MapMarkerManager;
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var defaults = {

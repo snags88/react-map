@@ -1,5 +1,6 @@
-var Marker = require('./../lib/map-marker')
-  , MarkerManager = require('./../lib/map-marker-manager')
+var Marker             = require('./../lib/map-marker')
+  , MarkerManager      = require('./../lib/map-marker-manager')
+  , InfoContentBuilder = require('./../lib/info-content-builder')
   ;
 
 var MapDisplay = React.createClass({
@@ -15,41 +16,45 @@ var MapDisplay = React.createClass({
 
   componentDidUpdate: function componentDidUpdate () {
     this.markerManager.clearAllMarkers();
-    this.props.results.forEach(this.addMarker);
-    this.handlePointOfInterest(this.props.pointOfInterest);
+    this.props.results.forEach(this._addMarker);
+    this._handlePointOfInterest(this.props.pointOfInterest);
   },
 
   shouldComponentUpdate: function shouldComponentUpdate (nextProps, nextState) {
     if(nextProps.results === this.props.results) {
       this.markerManager.clearInfoWindows();
-      this.handlePointOfInterest(nextProps.pointOfInterest);
+      this._handlePointOfInterest(nextProps.pointOfInterest);
       return false;
     } else {
       return true;
     }
   },
 
-  addMarker: function addMarker(place) {
+  /*
+   * private
+   */
+
+  _addMarker: function _addMarker(place) {
     var marker = new Marker(place, this.props.map)
       , infoWindow = new google.maps.InfoWindow({
-          content: place.name
+          content: this._infoWindowContent(place)
         })
       ;
 
     marker.infoWindow = infoWindow;
-    marker.addClickListener(this.onMarkerClick.bind(this, place));
+    marker.addClickListener(this._onMarkerClick.bind(this, place));
 
     this.markerManager.markers.push(marker);
   },
 
-  onMarkerClick: function onMarkerClick (place) {
+  _onMarkerClick: function _onMarkerClick (place) {
     var marker = this.markerManager.findByPlace(place);
     marker.showInfoWindow();
 
     this.props.onMarkerClick(place);
   },
 
-  handlePointOfInterest: function handlePointOfInterest (point) {
+  _handlePointOfInterest: function _handlePointOfInterest (point) {
     if (point) {
       this.props.map.panTo(point.geometry.location);
       this.props.map.setZoom(15);
@@ -57,6 +62,19 @@ var MapDisplay = React.createClass({
       var marker = this.markerManager.findByPlace(point);
       marker.showInfoWindow();
     }
+  },
+
+  _infoWindowContent: function _infoWindowContent (place) {
+    var contentBuilder = new InfoContentBuilder(place);
+
+    contentBuilder.addName();
+    contentBuilder.addAddress();
+    contentBuilder.addPhone();
+    contentBuilder.addWebsite();
+    contentBuilder.addRating();
+    contentBuilder.addOuterContainer();
+
+    return contentBuilder.content();
   }
 })
 

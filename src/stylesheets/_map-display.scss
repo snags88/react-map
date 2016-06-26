@@ -3,3 +3,35 @@
     height: 100vh;
   }
 }
+
+.info-window {
+  padding: $content-spacing / 2;
+
+
+  .name {
+    font-size: $content-spacing * 5 / 4;
+    padding-bottom: $content-spacing / 2;
+
+    a {
+      text-decoration: none;
+    }
+  }
+
+  .address, .phone {
+    padding-bottom: $content-spacing / 4;
+  }
+
+  .rating {
+    display: inline-block;
+  }
+
+  .website {
+    display: inline-block;
+    padding-top: $content-spacing / 4;
+    padding-right: $content-spacing / 2;
+
+    a {
+      text-decoration: none;
+    }
+  }
+}

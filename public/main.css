@@ -133,6 +133,24 @@ body {
 #mapDisplay .map {
   height: 100vh; }
 
+.info-window {
+  padding: 8px; }
+  .info-window .name {
+    font-size: 20px;
+    padding-bottom: 8px; }
+    .info-window .name a {
+      text-decoration: none; }
+  .info-window .address, .info-window .phone {
+    padding-bottom: 4px; }
+  .info-window .rating {
+    display: inline-block; }
+  .info-window .website {
+    display: inline-block;
+    padding-top: 4px;
+    padding-right: 8px; }
+    .info-window .website a {
+      text-decoration: none; }
+
 #searchField .search-form {
   padding: 32px;
   padding-bottom: 0; }
