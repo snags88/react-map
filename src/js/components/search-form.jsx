@@ -5,6 +5,7 @@ var SearchForm = React.createClass({
         <input
           type = 'text'
           className = 'search-input'
+          id = 'js--search-input'
           placeholder = 'Search for a place...'
           value = {this.state.value}
           onChange = {this.handleChange}
@@ -14,7 +15,13 @@ var SearchForm = React.createClass({
         </button>
       </form>
     );
-    // TODO: add typeahead to assist search
+  },
+
+  componentDidMount: function componentDidMount () {
+    var input = document.getElementById('js--search-input');
+
+    this.searchBox = new google.maps.places.SearchBox(input, {
+    });
   },
 
   getInitialState: function getInitialState () {
@@ -26,13 +33,20 @@ var SearchForm = React.createClass({
   },
 
   handleChange: function handleChange (e) {
-    this.setState({value: e.target.value})
+    var value = e.target.value;
+
+    this.setState({value: value})
   },
 
   handleSubmit: function handleSubmit (e) {
     e.preventDefault();
-    this.props.handleNewSearch(this.state);
-    //this.setState(this.getInitialState());
+
+    //TODO: Fix this hacky way of getting input value due to SearchBox
+    var value = document.getElementById('js--search-input').value;
+
+    this.setState({value: value}, function () {
+      this.props.handleNewSearch(this.state);
+    });
   }
 });
 
