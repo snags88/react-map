@@ -11,19 +11,18 @@ gulp.task('build-js', function() {
       extensions: ['.js', '.jsx']
     }))
     .pipe(rename('app.js'))
-    .pipe(gulp.dest('build'))
     .pipe(gulp.dest('public/js'));
 });
 
 gulp.task('build-html', function() {
   return gulp.src('src/index.html')
-    .pipe(gulp.dest('public'));
+    .pipe(gulp.dest('./'));
 });
 
 gulp.task('build-sass', function() {
   return gulp.src('src/stylesheets/main.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('public'));
+    .pipe(gulp.dest('public/stylehseets'));
 });
 
 gulp.task('watch', function() {
