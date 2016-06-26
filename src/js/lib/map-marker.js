@@ -7,12 +7,14 @@ var defaults = {
   }
 };
 
-var MapMarker = function(position, map, opts) {
-  if (!position) { throw 'Must pass in a position' };
+var MapMarker = function(place, map, opts) {
+  if (!place) { throw 'Must pass in a Google place object' };
 
   opts = opts || {}
-  opts = Object.assign({}, defaults, opts, {position: position, map: map})
+  opts = Object.assign({}, defaults, opts, {position: place.geometry.location, map: map})
 
+  this._map    = map
+  this._place = place
   this._marker = new google.maps.Marker(opts);
 };
 
@@ -22,6 +24,22 @@ MapMarker.prototype.addClickListener = function addClickListener (callback) {
 
 MapMarker.prototype.setMap = function setMap (value) {
   this._marker.setMap(value);
+};
+
+MapMarker.prototype.place = function place () {
+  return this._place;
+};
+
+MapMarker.prototype.showInfoWindow = function showInfoWindow () {
+  if(!this.infoWindow) { throw 'Marker does not have an info window' }
+
+  this.infoWindow.open(this._map, this._marker);
+};
+
+MapMarker.prototype.closeInfoWindow = function closeInfoWindow () {
+  if(!this.infoWindow) { throw 'Marker does not have an info window' }
+
+  this.infoWindow.close(this._map, this._marker);
 };
 
 module.exports = MapMarker;
