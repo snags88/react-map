@@ -22,7 +22,7 @@ gulp.task('build-html', function() {
 gulp.task('build-sass', function() {
   return gulp.src('src/stylesheets/main.scss')
     .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest('public/stylehseets'));
+    .pipe(gulp.dest('public/stylesheets'));
 });
 
 gulp.task('watch', function() {
