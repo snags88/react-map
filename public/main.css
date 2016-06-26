@@ -151,7 +151,19 @@ body {
 
 #searchResults ul {
   padding: 16px; }
-  #searchResults ul li {
-    padding: 16px; }
   #searchResults ul > li + li {
     border-top: 1px solid #c4c4c4; }
+  #searchResults ul li {
+    padding: 16px; }
+    #searchResults ul li .name {
+      font-size: 20px;
+      padding-bottom: 8px; }
+    #searchResults ul li .address {
+      font-size: 14px;
+      padding-bottom: 4px;
+      color: #7d7d7d; }
+    #searchResults ul li .phone {
+      font-size: 12px;
+      color: #7d7d7d; }
+    #searchResults ul li:hover {
+      background: #e1f0d9; }

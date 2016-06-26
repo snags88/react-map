@@ -2,13 +2,33 @@
   ul {
     padding: $content-spacing;
 
+    & > li + li {
+      border-top: 1px solid $grey-lighter;
+    }
+
     li {
       @extend .selectable;
       padding: $content-spacing;
-    }
 
-    & > li + li {
-      border-top: 1px solid $grey-lighter;
+      .name {
+        font-size: $content-spacing * 5 / 4;
+        padding-bottom: $content-spacing / 2;
+      }
+
+      .address {
+        font-size: $content-spacing - 2;
+        padding-bottom: $content-spacing / 4;
+        color: $grey;
+      }
+
+      .phone {
+        font-size: $content-spacing * 3 / 4;
+        color: $grey;
+      }
+
+      &:hover {
+        background: $green-lighter;
+      }
     }
   }
 }

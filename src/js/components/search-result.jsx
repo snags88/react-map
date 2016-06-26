@@ -4,7 +4,9 @@ var SearchResult = React.createClass({
 
     return (
       <li onClick = {this.handleClick}>
-        {result.name}
+        <div className = 'name'> {result.name} </div>
+        <div className = 'address'> {result.formatted_address}</div>
+        <div className = 'phone'> {result.formatted_phone_number} </div>
       </li>
     );
   },

@@ -29,5 +29,8 @@
     "gulp-browserify": "0.5.1",
     "gulp-rename": "1.2.2",
     "gulp-sass": "^2.3.2"
+  },
+  "dependencies": {
+    "when": "^3.7.7"
   }
 }

@@ -28,7 +28,7 @@ var SearchForm = React.createClass({
   },
 
   valid: function valid () {
-    return !!(this.state.value);
+    return !!(this.state.value && this.state.value.length < 150);
   },
 
   handleChange: function handleChange (e) {

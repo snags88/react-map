@@ -3,6 +3,7 @@ var SearchForm    = require('./search-form.jsx')
   , GeoLocator    = require('./../lib/geo-locator.js')
   , MapDisplay    = require('./map-display.jsx')
   , Loader        = require('./loader.jsx')
+  , W             = require('when')
   ;
 
 var MainComponent = React.createClass({
@@ -16,18 +17,19 @@ var MainComponent = React.createClass({
             />
           </div>
           <div id = 'searchResults'>
-            <Loader loading = {this.state.loading} />
             <SearchResults
               results = {this.state.results}
               onResultClick = {this.updatePointOfInterest}
+              placesService = {this.placesService}
             />
+            <Loader loading = {this.state.loading} />
           </div>
         </div>
         <div id = 'mainBody'>
           <div id = 'mapDisplay'>
             <MapDisplay
               map = {this.map}
-              placesService = {this.places}
+              placesService = {this.placesService}
               pointOfInterest = {this.state.pointOfInterest}
               results = {this.state.results}
               onMarkerClick = {this.updatePointOfInterest}
@@ -61,7 +63,7 @@ var MainComponent = React.createClass({
         query: search.value
       };
 
-    this.places.textSearch(request, this._handleSearchResponse);
+    this.placesService.textSearch(request, this._handleSearchResponse);
   },
 
   updatePointOfInterest: function updatePointOfInterest (place) {
@@ -82,15 +84,42 @@ var MainComponent = React.createClass({
       center: this.latLng,
       zoom: 12
     });
-    this.places = new google.maps.places.PlacesService(this.map);
+    this.placesService = new google.maps.places.PlacesService(this.map);
   },
 
   _handleSearchResponse: function _handleSearchResponse (results, status) {
+    this.results = results;
+
     if (status == google.maps.places.PlacesServiceStatus.OK) {
-      this.setState({results: results, pointOfInterest: results[0], loading: false});
+      var subSet = results.slice(0, 10);
+
+      W.map(subSet, this._sendDetailRequest)
+        .with(this)
+        .done(function(detailResults) {
+          this.setState({results: detailResults, pointOfInterest: detailResults[0], loading: false});
+        });
+        //.catch() handle error here
     } else {
       //handle error
     }
+  },
+
+  _sendDetailRequest: function _sendDetailRequest (result) {
+    var request  = { placeId: result.place_id }
+      , deferred = W.defer()
+      , self     = this
+      ;
+
+    // Required due to query rate (query per second) limitation on Google API
+    setTimeout(function() {self.placesService.getDetails(request, function(place, status) {
+      if (status == google.maps.places.PlacesServiceStatus.OK) {
+        return deferred.resolve(place)
+      } else {
+        return deferred.reject(status);
+      }
+    })}, 500);
+
+    return deferred.promise;
   },
 
   _setMapListeners: function _setMapListeners () {
