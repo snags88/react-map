@@ -178,16 +178,19 @@ var SearchForm = React.createClass({
       }),
       React.createElement(
         'button',
-        { type: 'submit' },
+        { type: 'submit', disabled: !this.valid() },
         React.createElement('i', { className: 'fa fa-search', 'aria-hidden': 'true' })
       )
     );
-    // TODO: add validation to form
     // TODO: add typeahead to assist search
   },
 
   getInitialState: function getInitialState() {
     return { value: '' };
+  },
+
+  valid: function valid() {
+    return !!this.state.value;
   },
 
   handleChange: function handleChange(e) {
@@ -220,6 +223,7 @@ var SearchResult = React.createClass({
   },
 
   handleClick: function handleClick(e) {
+    console.log(this.props.result);
     this.props.onResultClick(this.props.result);
   }
   // TODO: make results look good

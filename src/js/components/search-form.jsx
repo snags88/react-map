@@ -9,17 +9,20 @@ var SearchForm = React.createClass({
           value = {this.state.value}
           onChange = {this.handleChange}
         />
-        <button type = 'submit'>
+        <button type = 'submit' disabled = { !this.valid() }>
           <i className="fa fa-search" aria-hidden="true"></i>
         </button>
       </form>
     );
-    // TODO: add validation to form
     // TODO: add typeahead to assist search
   },
 
   getInitialState: function getInitialState () {
     return { value: '' };
+  },
+
+  valid: function valid () {
+    return !!(this.state.value);
   },
 
   handleChange: function handleChange (e) {

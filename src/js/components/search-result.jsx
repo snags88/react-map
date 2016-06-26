@@ -10,6 +10,7 @@ var SearchResult = React.createClass({
   },
 
   handleClick: function handleClick (e) {
+    console.log(this.props.result);
     this.props.onResultClick(this.props.result);
   }
   // TODO: make results look good
