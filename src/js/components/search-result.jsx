@@ -15,7 +15,6 @@ var SearchResult = React.createClass({
     console.log(this.props.result);
     this.props.onResultClick(this.props.result);
   }
-  // TODO: make results look good
 });
 
 module.exports = SearchResult;
