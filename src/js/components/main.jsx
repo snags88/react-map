@@ -37,7 +37,6 @@ var MainComponent = React.createClass({
 
   getInitialState: function getInitialState () {
     return { results: [], pointOfInterest: null };
-    // TODO: eventually get last 5 places from local storage
     // TODO: handle search query in URL and use for initial state
   },
 
@@ -57,8 +56,9 @@ var MainComponent = React.createClass({
   },
 
   updatePointOfInterest: function updatePointOfInterest (place) {
-    this.setState({pointOfInterest: place});
-    // TODO: set last 5 POI to local storage
+    if (place !== this.state.pointOfInterest) {
+      this.setState({pointOfInterest: place});
+    }
   },
 
   /*
